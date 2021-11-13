@@ -1,0 +1,258 @@
+// General search
+function quiescence_search(node, depth) is
+    if node appears quiet or node is a terminal node or depth = 0 then
+        return estimated value of node
+    else
+        (recursively search node children with quiescence_search)
+        return estimated value of children
+
+function normal_search(node, depth) is
+    if node is a terminal node then
+        return estimated value of node
+    else if depth = 0 then
+        if node appears quiet then
+            return estimated value of node
+        else
+            return estimated value from quiescence_search(node, reasonable_depth_value)
+    else
+        (recursively search node children with normal_search)
+        return estimated value of children
+        
+// For alpha-beta case: 
+quis(board, alpha, beta)
+
+eval = evaluatePosition();
+if(value >= beta)
+   return beta;
+
+if(value > alpha)
+   alpha = value;
+
+generateCaptures();
+forEveryCapture
+{
+   makeMove(nextCapture);
+   eval = -quis(tempBoard, -beta,-alpha);
+   unmakeMove();
+      
+   if(eval >= beta)
+      return beta;
+
+   if(value > alpha)
+      alpha = eval;
+}
+
+return alpha;
+
+Or:
+int Quiesce( int alpha, int beta ) {
+    int stand_pat = Evaluate();
+    if( stand_pat >= beta )
+        return beta;
+    if( alpha < stand_pat )
+        alpha = stand_pat;
+
+    until( every_capture_has_been_examined )  {
+        MakeCapture();
+        score = -Quiesce( -beta, -alpha );
+        TakeBackMove();
+
+        if( score >= beta )
+            return beta;
+        if( score > alpha )
+           alpha = score;
+    }
+    return alpha;
+}
+
+// Real code example
+// Perform the alpha-beta search.
+func ab(b *dragontoothmg.Board, alpha int16, beta int16, depth int8, halt chan bool, stop *bool) (int16, dragontoothmg.Move) {
+    nodeCount++
+
+    if *stop {
+        return alpha, 0
+    }
+
+    found, tableMove, tableEval, tableDepth, tableNodeType := transtable.Get(b)
+    if found && tableDepth >= depth {
+        if tableNodeType == transtable.Exact {
+            return tableEval, tableMove
+        } else if tableNodeType == transtable.LowerBound {
+            alpha = max(alpha, tableEval)
+        } else { // upperbound
+            beta = min(beta, tableEval)
+        }
+        if alpha >= beta {
+            return tableEval, tableMove
+        }
+    }
+    if depth == 0 {
+        //return eval.Evaluate(b), 0
+        return quiesce(b, alpha, beta, stop), 0
+    }
+
+    alpha0 := alpha
+    bestVal := int16(negInf) 
+    moves := b.GenerateLegalMoves()
+    var bestMove dragontoothmg.Move
+    if len(moves) > 0 {
+        bestMove = moves[0] // randomly pick some move
+    }
+    for _, move := range moves {
+        unapply := b.Apply(move)
+        var score int16
+        score, _ = ab(b, -beta, -alpha, depth-1, halt, stop)
+        score = -score
+        unapply()
+        if score > bestVal {
+            bestMove = move
+            bestVal = score
+        }
+        alpha = max(alpha, score)
+        if alpha >= beta {
+            break
+        }
+    }
+
+    if *stop {
+        return bestVal, bestMove
+    }
+
+    var nodeType uint8
+    if bestVal <= alpha0 {
+        nodeType = transtable.UpperBound
+    } else if bestVal >= beta {
+        nodeType = transtable.LowerBound
+    } else {
+        nodeType = transtable.Exact
+    }
+    transtable.Put(b, bestMove, bestVal, depth, nodeType)
+    return bestVal, bestMove
+}
+
+func quiesce(b *dragontoothmg.Board, alpha int16, beta int16, stop *bool) int16 {
+    nodeCount++
+    if *stop {
+        return alpha
+    }
+    var standPat int16
+    found, _, evalresult, _, ntype := transtable.Get(b)
+    if found && ntype == transtable.Exact {
+        standPat = evalresult
+    } else {
+        standPat = eval.Evaluate(b)
+        transtable.Put(b, 0, standPat, 0, transtable.Exact)
+    }
+    if standPat >= beta {
+        return beta
+    }
+    if alpha < standPat {
+        alpha = standPat
+    }
+    moves := b.GenerateLegalMoves()
+    if len(moves) == 0 { // TODO(dylhunn): What about stalemate?
+        return negInf
+    }
+    for _, move := range moves {
+        if !isCapture(move, b) {
+            continue
+        }
+        unapply := b.Apply(move)
+        score := -quiesce(b, -beta, -alpha, stop)
+        unapply()
+        if score >= beta {
+            return beta
+        }
+        if score > alpha {
+            alpha = score
+        }
+    }
+    return alpha
+}
+
+func isCapture(m dragontoothmg.Move, b *dragontoothmg.Board) bool {
+    toBitboard := (uint64(1) << m.To())
+    return (toBitboard&b.White.All != 0) || (toBitboard&b.Black.All != 0)
+}
+
+
+#-----------------------------------------------------------------#
+private double alphaBetaSearch(double alpha, double beta, int currentDepth) {
+    _visitedNodes ++;
+    long zobrist = _board.zobrist();
+    double transposition = transpositionLookUp(zobrist, currentDepth);
+    if(!Double.isNaN(transposition)){
+        return transposition;
+    }
+
+    List<Move> allMoves = _board.getAvailableMoves();
+    if(currentDepth == _depth || allMoves.size() == 0 || _board.isGameOver()){
+        double val = Quiesce(alpha, beta,quiesce_depth );
+        transpositionPlacement(zobrist, currentDepth, val);
+        return val;
+    }
+
+    orderer.sort(allMoves,currentDepth,zobrist,_transpositionTable_pv);
+
+    for (Move m : allMoves) {
+        _board.move(m);
+        double score = -alphaBetaSearch(-beta, -alpha, currentDepth + 1);
+        _board.undoMove();
+        if (score >= beta) {
+            transpositionPlacement(zobrist, m);
+            return beta;
+        }
+        if (score > alpha) {
+            transpositionPlacement(zobrist, m);
+            alpha = score;
+            if (currentDepth == 0) {
+                _bestMove = m;
+            }
+        }
+    }
+
+    transpositionPlacement(zobrist, currentDepth, alpha);
+
+    return alpha;
+}
+
+
+private double Quiesce(double alpha, double beta, int depth_left) {
+    _quiesceNodes ++;
+    _evaluatedNodes ++;
+    double stand_pat = evaluator.evaluate(_board) * _board.getActivePlayer();
+    if(depth_left == 0){
+        return stand_pat;
+    }
+    if( stand_pat >= beta)
+        return beta;
+    if( alpha < stand_pat )
+        alpha = stand_pat;
+
+
+    List<Move> allMoves = _board.getAvailableMoves();
+
+    for(Move m:allMoves){
+        if(m.getPieceTo() * m.getPieceFrom() < 0){
+
+            _board.move(m);
+            double score = -Quiesce( -beta, -alpha, depth_left-1);
+            _board.undoMove();
+
+            if( score >= beta )
+                return beta;
+            if( score > alpha )
+                alpha = score;
+        }
+    }
+
+    return alpha;
+}
+
+
+normal(A, 1)  S = [B, C]
+normal(B, 0)
+
+- Limited depth of search
+- Iterative search

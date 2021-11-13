@@ -1,0 +1,65 @@
+				Go game Intelligence Agent
+A. Go game
+  1. Board
+     + Dạng hình vuông với 3 kích thước chính 9x9, 13x13 và tiêu chuẩn 19x19
+     + Quân cờ: Bao gồm nxn quân và được chia làm 2 loại trắng và đen
+  2. Rules
+     Mục đích: Bắt đầu từ một bàn cờ trống, hai bên luân phiên đặt quân Trắng và Đen vào. Từ đó các quân này không được phép di chuyển nữa. Nhiệm vụ của những quân này là bao quanh các khu vực nhất định trên bàn cờ để biến chúng thành đất của mình.
+
+     Trận đấu kết thúc khi hai bên cùng lúc bỏ lượt (người chơi được phép bỏ lượt nếu muốn). Khi đó ta tiến hành đếm đất của mỗi bên. Bên nào nhiều đất hơn thì thắng.
+     
+     + Điều 1: Trận đấu bắt đầu với bàn cờ trống và quân Đen đi trước.
+     + Điều 2: Quân cờ phải được đặt đúng vào giao điểm bất kỳ của 2 đường thẳng và ngang. Không được đặt giữa ô vuông, ở cạnh của ô vuông cũng như bên ngoài bàn cờ.
+     + Điều 3: Quân cờ đã đặt xuống bàn cờ là phải bất di bất dịch trừ trường hợp bị ăn.
+     + Điều 4: Mỗi loại quân không thể đi 2 nước cờ liên tiếp mà phải xen kẻ với đối thủ nếu không sẽ bị xử thua.
+     + Điều 5: Người chơi có thể bỏ lượt của mình không đi. Trò chơi kết thúc khi cả 2 người cùng bỏ lượt và thắng thua sẽ được định đoạt bằng cách đếm số quân cờ xem loại nào nhiều hơn là giành chiến thắng.
+     
+     Luật ăn quân: 
+     Tham khảo <https://www.thegioididong.com/game-app/huong-dan-cach-choi-co-vay-chien-thuat-va-luat-choi-co-ban-1322496>
+     + Khí: Khi quân cờ đặt xuống bàn cờ, tất cả các giao điểm nằm sát (ngang và dọc) quân cờ đó là khí của nó (Lưu ý: Không tính giao điểm nằm chéo). Lưu ý hai quân cờ chéo nhau thì không thể mở rộng khí cho nhau.
+     
+     + Khi đối phương đặt quân vào khí của mình, quân mình mất đi khí ở đó. 
+     + Một quân cờ không còn khí sẽ bị bốc ra khỏi bàn cờ và chính thức bị loại.
+     + Bất kỳ điểm nào ta cũng có thể đặt quân cờ vào miễn là chỗ đó còn khí. 
+     + Trường hợp điểm đó hết khí nhưng nó cũng là điểm nối quân của mình thì người chơi có thể đặt quân cờ vào.
+     + Ngoại lệ: được phép đặt vào điểm hết khí trong trường hợp có thể ăn được quân đối phương
+      
+  3. Tính điểm:
+     Tham khảo: <http://blogcovay.com/khac-biet-giua-cach-dem-dat-cua-luat-nhat-ban-va-trung-quoc/> 
+    *) Nhật - Hàn:
+       Số điểm trong luật Nhật được tính bằng tổng số giao điểm trống (số mục) được bao vây bởi các đám quân của một bên. Bên cạnh đó, số quân ăn trong quá trình chơi sẽ được lấp vào đất đối phương để làm giảm nó đi. Ai nhiều đất hơn sẽ thắng cuộc.
+       1. Cả hai bên đã đồng ý bỏ lượt. Trận đấu chính thức dừng tại đây.
+       1a. Trước khi bỏ lượt, cả hai bên không cần lấp đất chung. Tuy nhiên, việc này được khuyến khích để giúp cho việc đếm đất dễ dàng hơn.
+
+       2. Xác định những quân chết kỹ thuật, bốc chúng ra và đặt chung vào đám tù binh đã bắt được.
+
+       3. Lấp tất cả tù binh vào đất đối phương.
+
+       4. Thay đổi vị trí những quân cờ trong đất đối phương để những vùng đất này trở thành hình chữ nhật (tốt nhất là bội số của 10, ví dụ 2×5, 4×5, 3×4-2, 3×7-1).
+
+       5. Cộng tổng và xác định người chiến thắng sau khi đã cộng thêm 6,5 komi.
+    *) Trung: 
+       Khác biệt căn bản nhất của luật Trung Quốc so với luật Nhật là bên cạnh việc đếm đất chiếm được, ta phải cộng thêm cả số quân cờ đang có mặt ở trên bàn. Ví dụ: Đen chiếm 75 đất, và có tổng cộng 127 quân trên bàn cờ lúc kết thúc, vậy tổng điểm của Đen là 202. Quân ăn được trong quá trình chơi sẽ được bỏ qua một bên, không cần quan tâm đến chúng.
+       1. Cả hai bên đã đồng ý bỏ lượt. Trận đấu chính thức dừng tại đây.
+       1a. Không như luật Nhật, việc lấp những đất chung cũng là một phần của trận đấu.
+
+       2. Xác định những quân chết kỹ thuật, bốc chúng ra ngoài, và chúng hết nhiệm vụ.
+Ta cũng không cần quan tâm đến những quân đã ăn.
+
+       3. Thay đổi vị trí và đặt thêm (hoặc bỏ bớt) quân cờ trong đất đối phương để chúng thành những ô chữ nhật. Cộng tổng. Ghi nhớ con số.
+
+       4. Tách quân của hai bên (trên bàn cờ) ra. Và đếm chúng.
+
+       5. Điểm của người chơi sẽ là tổng của 3 và 4. Xác định người chiến thắng sau khi cộng cho Trắng 7,5 komi.
+           
+B. Problem description
+   Có 2 dạng cách chơi có thể lựa chọn: chơi từ đầu ván cờ (input 1) và chơi phá thế cờ (input 2). Đề xuất chơi với input 1 cùng với kích thước bàn cờ nhỏ nhất 9x9.
+   + Input: Khỏi tạo đen đi trước với điểm số (black_count = 0) và trắng sau (white_count = 6,5 or 7,5). Mỗi lượt đi yêu cầu người chơi nhập nước đi dạng (x, y) hoặc bỏ lượt.
+   + Output:
+     - Khi chưa kết thúc, máy đưa ra nước đi và điểm hiện tại
+     - Khi cả 2 bỏ lượt thông báo kết thúc trò chơi, bên thắng, điểm số hiện tại + Máy lưu được chuỗi đánh để có được số đất nhiều nhất.
+     
+C. Proposed algorithms (Search term / reinforcement learning)
+  1. Search term
+     
+  2. reinforcement learning ???

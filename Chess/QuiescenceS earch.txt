@@ -1,0 +1,36 @@
+* Note: (**) is example
+
+Applied minimax or alpha, beta pruning algorithms could get good performace with each move since with an exact depth which is seltected before, these two algorithms have tried to minimize the score of opposite player while maximize our score. Using alpha, beta pruning to decrease the search space of minimax algorithm is considered as an improvement (The
+branching factor is typically 35 in average for mimimax, while it's 25 for alpha, beta pruning). However, a real demerit emerges when using the "fixed depth" in above algorithms: 
+
+1. The horizon effect:
+    The horizon effect is a problem in artificial intelligence which can occur when all moves from a given node in a game tree are searched to a fixed depth. Threats and opportunities beyond the search depth will remain undetected. This can result in the peculiar ploy of a program making delaying moves that degrade the position until it pushes a threat beyond the search depth or "horizon". By the time the threat must be dealt with, the position has become too degraded to be salvageable. Quiescence search attempts to mitigate this issue by extending the search depth in volatile positions where the heuristic value may have significant fluctuations between moves.
+    -> A game search that stops at a fixed depth has a problem: If a tactical action is in progress at the end of the variation, the evaluation function may give unreliable answers. In a chess search, for example, the white’s last move may be queen takes knight, and the evaluation function will report that white is up a knight. If the search looked one move deeper, it would see that black has the reply pawn takes queen, and realize that black is winning.
+    
+2. Quiescence search
+   A quiescence search is an additional search, starting at the leaf nodes of the main search, which tries to solve this problem. In chess, quiescence searches usually include all capture moves, so that tactical exchanges don’t mess up the evaluation. In principle, quiescence searches should include any move which may destabilize the evaluation function—if there is such a move, the position is not quiescent.
+   
+   Quiescence search is an algorithm typically used to extend search at unstable nodes in minimax game trees in game-playing computer programs. It is an extension of the evaluation function to defer evaluation until the position is stable enough to be evaluated statically, that is, without considering the history of the position or future moves from the position. 
+   
+   One important caveat in the quiescence searching algorithm is that  it should only look at moves that became available because of the current move being made.(* Consider the following situation. Your bishop is threatened by an opponent's pawn, and you have the ability to capture the opponent's knight with a different pawn. Suppose the algorithm is looking only 1 ply ahead, and is examining some non-capturing move. It won't notice that the bishop can be captured in the next turn. But what  happens when it's examining the knight-capturing move with quiescence. It will see that the opponent can take your bishop, which will even out the piece possession, making the move not seem as good. So it's highly likely that the algorithm would pick a move other than capturing the knight, thus needlessly losing the bishop in the next turn. To prevent this, the algorithm must look at ONLY those moves available because of its own move. Since the opponent's "pawn captures bishop" was available regardless of whether you capture the knight or not, it should be ignored. *)
+    
+3. Pseudocode:
+function quiescence_search(node, depth) is
+    if node appears quiet or node is a terminal node or depth = 0 then
+        return estimated value of node
+    else
+        (recursively search node children with quiescence_search)
+        return estimated value of children
+
+function normal_search(node, depth) is
+    if node is a terminal node then
+        return estimated value of node
+    else if depth = 0 then
+        if node appears quiet then
+            return estimated value of node
+        else
+            return estimated value from quiescence_search(node, reasonable_depth_value)
+    else
+        (recursively search node children with normal_search)
+        return estimated value of children'
+
