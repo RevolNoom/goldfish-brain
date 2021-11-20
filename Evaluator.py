@@ -128,23 +128,25 @@ class EvaluatorSunfish(Evaluator):
 
 
     def Evaluate(self, ChessBoard):
-
-        gameResult = ChessBoard.outcome()
+        gameResult = ChessBoard.is_game_over()
+        whoWin = ChessBoard.turn
+        
 
         WIN_SCORE = 999999
 
         # The game ended
         if gameResult is not None:
-            if gameResult.result() == "1-0":
+            if whoWin == "1-0":
                 return WIN_SCORE
-
+            else:
+                return -WIN_SCORE
+            """
             elif gameResult.result() == "0-1":
                 return -WIN_SCORE
                 
             elif gameResult.result() == "1/2-1/2":
                 return 0
-        
-
+            """
         # Help keeping track of traversed position on the board
         Row = 0
         Column = 0
