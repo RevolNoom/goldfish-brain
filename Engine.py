@@ -1,9 +1,9 @@
 class Engine:
     def __init__(self):
-        printf("Broken Engine.")
+        print("Broken Engine.")
 
-    def NextBestMove(ChessBoard)
-        printf("zzz...")
+    def NextBestMove(ChessBoard):
+        print("zzz...")
 
 
 #class DeriveEngine(Engine):

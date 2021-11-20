@@ -19,7 +19,8 @@ class EvaluatorSunfish(Evaluator):
     """ This evaluator uses piece-position values from Sunfish engine
         https://github.com/thomasahle/sunfish/blob/master/sunfish.py """
 
-    _piece = { 'P': 100, 'N': 280, 'B': 320, 'R': 479, 'Q': 929, 'K': 60000 }
+    _piece = { 'P': 100, 'N': 280, 'B': 320, 'R': 479, 'Q': 929, 'K': 60000, 
+                'p': -100, 'n': -280, 'b': -320, 'r': -479, 'q': -929, 'k': -60000 }
     _pst = {
         'P': (   0,   0,   0,   0,   0,   0,   0,   0,
                 78,  83,  86,  73, 102,  82,  85,  90,
@@ -135,13 +136,13 @@ class EvaluatorSunfish(Evaluator):
         # The game ended
         if gameResult is not None:
             if gameResult.result() == "1-0":
-                return self.WIN_SCORE
+                return WIN_SCORE
 
             elif gameResult.result() == "0-1":
-                    return -self.WIN_SCORE
+                return -WIN_SCORE
                 
             elif gameResult.result() == "1/2-1/2":
-                    return 0
+                return 0
         
 
         # Help keeping track of traversed position on the board
@@ -152,6 +153,7 @@ class EvaluatorSunfish(Evaluator):
 
         fen = ChessBoard.board_fen()
 
+        # Sum up the score of each piece on each cell 
         for i in range(0, len(fen)):
             if fen[i] == '/':
                 Row += 1
@@ -159,19 +161,12 @@ class EvaluatorSunfish(Evaluator):
             elif fen[i].isnumeric():
                 Column += int(fen[i])
             elif fen[i].isalpha():   
-                pieceScore = self._pst[fen[i]][Row*8 + Column]
-                score += pieceScore
+                positionScore = self._pst[fen[i]][Row*8 + Column]
+                pieceScore = self._piece[fen[i]]
+                score += pieceScore + positionScore
                 #print("Piece " + fen[i] + " at " + str(Row) + ", " + str(Column) + " score: " + str(pieceScore))
                 Column += 1
-            else:   #This is probably a space. Time to depart
+            else:   #We're out of board representation section. Time to depart
                break
 
         return score
-                
-
-
-
-#e = EvaluatorSunfish()
-#b = chess.Board()
-#b.push_san("e2e4")
-#print(e.Evaluate(b))
