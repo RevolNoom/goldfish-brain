@@ -1,0 +1,45 @@
+pychess.py COMMAND
+
+COMMAND:
+
+	help
+	--help
+		Print this help and exit.
+
+	bestmove Fen ALGORITHM [Depth]
+
+		Returns the best move in UCI, evaluated by ALGORITHM 
+		for position specified by Fen.
+
+		Depth is a positive integer, specifies the depth at 
+		which the algorithm will search for the best move.
+		Without Depth, the ALGORITHM will use its default
+		configuration, which differs from algorithm to 
+		algorithm. You should experiment a bit to find the
+		one that fits your need best.
+	
+		ALGORITHM can be one of the following:
+		+ minimax
+		+ negamax
+		+ alphabeta
+		+ nullmove
+		+ quiescent
+	
+	legalmoves Fen
+		
+		Returns a list of legal moves for a FEN position, each
+		move represented by UCI on a line.
+
+	move Fen Uci
+
+		Returns the resulting FEN position after playing move 
+		Uci on position Fen.
+		If the move cannot be performed, return "ERROR".
+
+	status Fen
+
+		Returns the status of current Fen position:
+		+) White wins: "1-0"
+		+) Black wins: "0-1"
+		+) Draw: "1/2-1/2"
+		+) Ongoing: "-"

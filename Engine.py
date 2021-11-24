@@ -2,7 +2,7 @@ class Engine:
     def __init__(self):
         print("Broken Engine.")
 
-    def NextBestMove(ChessBoard):
+    def findBestMove(ChessBoard, Depth):
         print("zzz...")
 
 
