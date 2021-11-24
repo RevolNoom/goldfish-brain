@@ -1,10 +1,11 @@
+
 import chess
 
 ChessBoard = chess.Board
 DEPTH = 4
 CHECKMATE = 1e5
 
-def nega(ChessBoard, Depth, Player):
+def negaAbp(ChessBoard, Depth, Alpha, Beta, Player):
     # The stop case: king is captured or draw play once
     # case: check-mate
     if ChessBoard.is_checkmate():
@@ -19,17 +20,23 @@ def nega(ChessBoard, Depth, Player):
     if Depth == 0:
         return Player * evaluate(ChessBoard)
     # backtrack and find children
+    # imply move-ordering: moves that produce better score should be examined first
     global bestMove
     max_score = -CHECKMATE
     for legal_move in ChessBoard.legal_moves:
         move = chess.Move.from_uci(str(legal_move))
         ChessBoard.push(move)
-        score = -nega(ChessBoard, Depth-1, -Player)
+        # since next Player is the opposite so -beta becomes alpha of next Player, and -alpha becomes beta
+        score = -negaAbp(ChessBoard, Depth-1, -Beta, -Alpha, -Player)
         if score > max_score:
             max_score = score
             if Depth == Depth:
                 bestMove = move
         ChessBoard.pop()
+        if max_score > Alpha: # pruning
+            Alpha = max_score
+        if Alpha >= Beta:
+            break
     return max_score
 
 def findBestMove(self, ChessBoard, Depth):
@@ -39,7 +46,8 @@ def findBestMove(self, ChessBoard, Depth):
     global bestMove
     bestMove = None
     # parse 1 if white's turn, -1 if black's turn
-    nega(ChessBoard, Depth, 1 if ChessBoard.turn else -1)
+    # initial: alpha = -CHEKMATE, beta = CHECKMATE
+    negaAbp(ChessBoard, Depth, -CHECKMATE, CHECKMATE, 1 if ChessBoard.turn else -1)
     end = time.time()
     print("Time: {} s".format(end-start))
     return bestMove
