@@ -7,13 +7,9 @@ import Evaluator
 class Minimax(Engine.Engine):
     _evaluator = Evaluator.EvaluatorSunfish()
 
-    def __init__(self):
-        # How deep the Engine is going to search
-        self._depth = 3 
-
-    def NextBestMove(self, ChessBoard):
+    def findBestMove(self, ChessBoard, Depth):
         """ Return the next best move for the player-to-move """
-        return self.Evaluate(ChessBoard, self._depth)[0]
+        return self.Evaluate(ChessBoard, Depth)[0]
 
 
     def Evaluate(self, ChessBoard, Depth):

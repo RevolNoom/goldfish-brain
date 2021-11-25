@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Board/Board.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Main.gd" type="Script" id=2]
+[ext_resource path="res://Player/Human/Human.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Player/Engine/Pychess.tscn" type="PackedScene" id=4]
+
+[node name="Main" type="Node"]
+script = ExtResource( 2 )
+
+[node name="Board" parent="." instance=ExtResource( 1 )]
+scale = Vector2( 2.32, 2.32 )
+
+[node name="Human" parent="." instance=ExtResource( 3 )]
+
+[node name="Pychess" parent="." instance=ExtResource( 4 )]
+AlgorithmName = "minimax"
+Depth = 3
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

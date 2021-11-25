@@ -6,7 +6,7 @@ COMMAND:
 	--help
 		Print this help and exit.
 
-	bestmove Fen ALGORITHM [Depth]
+	bestmove Fen ALGORITHM Depth
 
 		Returns the best move in UCI, evaluated by ALGORITHM 
 		for position specified by Fen.

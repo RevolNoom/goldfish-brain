@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ChessPiece/Black/blackPawn.png" type="Texture" id=1]
+[ext_resource path="res://ChessPiece/ChessPiece.tscn" type="PackedScene" id=2]
+
+[node name="Piece" instance=ExtResource( 2 )]
+
+[node name="Sprite" parent="." index="1"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 1 )
