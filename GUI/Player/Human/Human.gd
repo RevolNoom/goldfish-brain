@@ -28,17 +28,19 @@ func HandleMoveRequest(Board):
 func _unhandled_input(event):
 	
 	# Filter Mouse events only
-	if not event is InputEventMouse:
+	if not _IsOurTurn or not event is InputEventMouse:
 		return
 	
 	# Move the Pointer along with Mouse
 	# And take note of the hovered piece
 	if event is InputEventMouseMotion:
-		var collideInfo = $Handpick.move_and_collide($Handpick.get_global_mouse_position() - $Handpick.get_position(), true, true, true)
+		$Handpick.set_global_position($Handpick.get_global_mouse_position())
+		var collideInfo = $Handpick.move_and_collide(Vector2(0,0.01), true, true, true)
 		if collideInfo != null and collideInfo.get_collider() != null:
 			_HoveredPiece = collideInfo.get_collider()
+		else:
+			_HoveredPiece = null
 			#print("Hovered piece: " + _HoveredPiece.get_parent().get_name())
-		$Handpick.set_global_position($Handpick.get_global_mouse_position())
 			
 		# Move the dragged piece with the mouse
 		if _PickedPiece != null:
@@ -54,8 +56,6 @@ func _unhandled_input(event):
 			# Move the piece along with our mouse
 			_PickedPiece.set_global_position($Handpick.get_global_position())
 	
-	if not _IsOurTurn:
-		return
 		
 	# Are we pressing?
 	if event is InputEventMouseButton:
@@ -63,7 +63,7 @@ func _unhandled_input(event):
 		# We're clicking for the first time in a while
 		# Try grabbing a chess piece
 		if event.is_pressed():
-			if _PickedPiece == null:
+			if _PickedPiece == null and _HoveredPiece != null:
 				_PickedPiece = _HoveredPiece
 				print("Picked piece: " + _PickedPiece.get_name())
 				

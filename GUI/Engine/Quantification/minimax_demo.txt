@@ -1,0 +1,34 @@
+1.1 3.5 5.9 6 8.1 10.9 100 1024 9.3
+1 2 3 4 5 6 7 8 9
+9 8 7 6 5 4 3 2 1 
+0.01 2.03 0.00001 20 900 987 1025 2048 4096
+
+
+
+Mỗi file kết quả sẽ chứa các dòng gồm số, mỗi số phân cách bằng dấu cách như trên
+File này chứa ví dụ chứ không phải thông tin chính xác
+
+SỐ: 
+	Mỗi số trong 1 dòng là thời gian chạy trung bình của thuật toán, tương ứng với từng FEN của EvergreenFEN.py
+	Để tính thời gian trung bình, các bạn gọi hàm EvaluateTime() 10 lần cho một FEN, cộng tổng chia trung bình
+	Ví dụ:
+		Fen đầu tiên mà EvergreenFEN.py in ra là:
+
+			rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1
+		
+		Các bạn gọi EvaluateTime() 
+
+
+1 là thời gian chạy trung bình của thuật toán cho thế cờ đầu tiên
+2.2 là thời gian chạy trung bình cho thế cờ thứ hai
+5 là thời gian chạy trung bình thế cờ thứ ba
+...
+
+Thời gian chạy trung bình có được sau khi chạy thuật toán 10 lần rồi cộng tổng chia trung bình
+Ví dụ:
+Chạy thuật toán đầu tiên 10 lần cho FEN đầu tiên của thế cờ A, ra thời gian như sau: 0.8 0.9 0.8 0.9 1.1 1.2 1.2 1.1 1 1 
+t cộng tổng, chia 10, ra 1. t lấy kết quả là 1
+
+Lưu ý nho nhỏ trong trường hợp chúng m mông lung:
++) T không quan tâm nó là số nguyên hay float, ok? :)
++) KHÔNG SỬ DỤNG dạng số scientific (9.5e-5, 1.1e4,...) mà dùng dạng bình thường con người hay viết (0.000095, 1100)
