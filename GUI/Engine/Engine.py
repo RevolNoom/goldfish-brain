@@ -9,8 +9,7 @@ class Engine:
         print("zzz...")
 
     def GetEvaluateTime(self, ChessBoard, Depth):
-        """Return the Engine Evaluate time of the position
-        in nanoseconds"""
+        """Return (Position Evaluate time (s), Best Move)"""
 
         # I don't want to see anything printed on the screen
         text_trap = io.StringIO()
@@ -18,13 +17,13 @@ class Engine:
 
         # Count running time 
         StartTime = time.monotonic()
-        self.findBestMove(ChessBoard, Depth)
+        Move = self.findBestMove(ChessBoard, Depth)
         EndTime = time.monotonic()
 
         # now restore stdout function
         sys.stdout = sys.__stdout__
 
-        return EndTime-StartTime
+        return (EndTime-StartTime, Move)
 
 
 #class DeriveEngine(Engine):

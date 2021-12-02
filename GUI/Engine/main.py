@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
-from Minimax import *
+import Minimax
 import chess
 
 c = chess.Board()
-engine = Minimax()
+engine = Minimax.Minimax()
 
 print(engine.GetEvaluateTime(c, 3))
 #
