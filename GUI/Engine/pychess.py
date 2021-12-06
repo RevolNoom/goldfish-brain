@@ -3,94 +3,103 @@
 import sys
 import chess
 import Minimax as mm
+import AlphaBeta as ab
 
 
-def PrintHelpThenExit():
-    helpfile = open("pychess.help", "r")
-    a = str(helpfile.read())
-    print(a)
-    quit()
+class Pychess:
+
+    def __init__(self):
+        # Mapping between arguments and what we need to do
+        self.CommandTable = {
+            "bestmove": self.BestMove,
+            "legalmoves": self.LegalMoves,
+            "move": self.Move,
+            "status": self.Status}
+
+        # Mapping between names and actual algorithms
+        self.AlgorithmTable = {  "minimax" : mm.Minimax(),
+                            "alphabeta" : ab.AlphaBeta()}
 
 
-def BestMove():
-    if len(sys.argv) not in [4, 5]:
-        PrintHelpThenExit()
-
-    # Load the arguments
-
-    board = chess.Board(sys.argv[2])
-
-    AlgorithmName = sys.argv[3]
-    AlgorithmTable = {"minimax" : mm.Minimax()}
-    algorithm = AlgorithmTable[AlgorithmName]
-    if algorithm == None:
-        print("Unknown Algorithm: " + algorithm)
-
-    depth = None
-    if len(sys.argv) == 5:
-        depth = int(sys.argv[4])
     
-    # Return the result
-    print(algorithm.findBestMove(board, depth))
+    def Execute(self):
+        if len(sys.argv) == 1 or sys.argv[1] == "help" or sys.argv[1] == "--help":
+            self.PrintHelpThenExit()
+    
+        # Look up what we need to do
+        command = self.CommandTable[sys.argv[1]]
+        # And then do it
+        command()
 
 
-def LegalMoves():
-    if len(sys.argv) != 3:
-        PrintHelpThenExit()
-
-    board = chess.Board(sys.argv[2])
-    for i in board.legal_moves:
-        print(i)
+    def PrintHelpThenExit(self):
+        helpfile = open("pychess.help", "r")
+        a = str(helpfile.read())
+        print(a)
+        quit()
 
 
-def Move():
-    if len(sys.argv) != 4:
-        PrintHelpThenExit()
 
-    board = chess.Board(sys.argv[2])
-    try:
-        board.push_uci(sys.argv[3])
-        print(board.fen())
+    def BestMove(self):
+        if len(sys.argv) not in [4, 5]: 
+            self.PrintHelpThenExit()
 
-    except:
-        print("ERROR")
+        # Load the arguments
 
+        board = chess.Board(sys.argv[2])
 
-def Status():
+        AlgorithmName = sys.argv[3]
 
-    if len(sys.argv) != 3:
-        PrintHelpThenExit()
+        algorithm = self.AlgorithmTable[AlgorithmName]
+        if algorithm == None:
+            print("Unknown Algorithm: " + algorithm)
 
-    board = chess.Board(sys.argv[2])
-
-    outcome = board.outcome()
-
-    if outcome == None:
-        print("-")
-    else:
-        print(outcome.result())
+        depth = None
+        if len(sys.argv) == 5:
+            depth = int(sys.argv[4])
+        
+        # Return the result
+        print(algorithm.findBestMove(board, depth))
 
 
-# MAIN EXECUTION:
 
-if len(sys.argv) == 1 or sys.argv[1] == "help" or sys.argv[1] == "--help":
-    PrintHelpThenExit()
+    def LegalMoves(self):
+        if len(sys.argv) != 3:
+            self.PrintHelpThenExit()
 
-# A mapping between arguments and what we need to do
-CommandTable = {
-    "bestmove": BestMove,
-    "legalmoves": LegalMoves,
-    "move": Move,
-    "status": Status}
+        board = chess.Board(sys.argv[2])
+        for i in board.legal_moves:
+            print(i)
 
-#try:
-# Look up what we need to do
-command = CommandTable[sys.argv[1]]
-# And then do it
-command()
-#except:
-    # There's an error, which indicate that we can't match
-    # argument 1 with any Command 
-#    print("Unknown command: " + sys.argv[1])
-                
 
+    def Move(self):
+        if len(sys.argv) != 4:
+            self.PrintHelpThenExit()
+
+        board = chess.Board(sys.argv[2])
+        try:
+            board.push_uci(sys.argv[3])
+            print(board.fen())
+
+        except:
+            print("ERROR")
+
+
+    def Status(self):
+
+        if len(sys.argv) != 3:
+            self.PrintHelpThenExit()
+
+        board = chess.Board(sys.argv[2])
+
+        outcome = board.outcome()
+
+        if outcome == None:
+            print("-")
+        else:
+            print(outcome.result())
+
+
+
+pychess = Pychess()
+pychess.Execute()

@@ -18,6 +18,7 @@ collision_mask = 2
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="Handpick"]
+visible = false
 position = Vector2( -5.72205e-06, -0.59461 )
 scale = Vector2( 0.405395, 0.405395 )
 texture = ExtResource( 2 )

@@ -25,7 +25,7 @@ func HandleMoveRequest(Board):
 	
 	
 # Handle pieces drag and drop
-func _unhandled_input(event):
+func _input(event):
 	
 	# Filter Mouse events only
 	if not _IsOurTurn or not event is InputEventMouse:
@@ -44,7 +44,7 @@ func _unhandled_input(event):
 			
 		# Move the dragged piece with the mouse
 		if _PickedPiece != null:
-			print("Picked piece: " + _PickedPiece.get_name())
+			#print("Picked piece: " + _PickedPiece.get_name())
 			_PickedPiece.add_collision_exception_with($Handpick)
 			# Test collision with a Cell
 			var colInfo = _PickedPiece.move_and_collide(Vector2(0,0.1), true, true, true)
@@ -52,7 +52,7 @@ func _unhandled_input(event):
 			# Could be over a Cell, could be nothing (null)
 			if colInfo != null:
 				_HoveredCell = colInfo.get_collider()
-				print("Collided with: "+_HoveredCell.get_name())
+			#	print("Collided with: "+_HoveredCell.get_name())
 			# Move the piece along with our mouse
 			_PickedPiece.set_global_position($Handpick.get_global_position())
 	
@@ -65,7 +65,7 @@ func _unhandled_input(event):
 		if event.is_pressed():
 			if _PickedPiece == null and _HoveredPiece != null:
 				_PickedPiece = _HoveredPiece
-				print("Picked piece: " + _PickedPiece.get_name())
+				#print("Picked piece: " + _PickedPiece.get_name())
 				
 		# Drop piece on a cell
 		elif _PickedPiece != null:
