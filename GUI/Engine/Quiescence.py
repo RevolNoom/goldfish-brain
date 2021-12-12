@@ -13,34 +13,34 @@ This class for implement quiescence search algorithm
 """
 class Quiescence(Engine.Engine):
 
-	_evaluator = Evaluator.EvaluatorPosition()
+    _evaluator = Evaluator.EvaluatorPosition()
 	
-	"""
-	@returns: move the next move of computer
-	"""
-	def findBesMove(self, chessBoard, depth):
-		return self._findBestMove(chessBoard, depth)[1]
+    """
+    @returns: move the next move of computer
+    """
+    def findBesMove(self, chessBoard, depth):
+	    return self._findBestMove(chessBoard, depth)[1]
 		
-	"""
-	Take the value of each piece to compare
-	@return value of selected piece
-	"""	
-	def _get_piece_val(piece):
-    	if(piece == None):
-        	return 0
+    """
+    Take the value of each piece to compare
+    @return value of selected piece
+    """	
+    def _get_piece_val(piece):
+        if(piece == None):
+            return 0
     	value = 0
     	if piece == "P" or piece == "p":
-        	value = 10
+            value = 10
     	if piece == "N" or piece == "n":
-        	value = 30
+            value = 30
     	if piece == "B" or piece == "b":
-        	value = 30
+            value = 30
     	if piece == "R" or piece == "r":
-        	value = 50
+            value = 50
     	if piece == "Q" or piece == "q":
-        	value = 90
+            value = 90
     	if piece == 'K' or piece == 'k':
-        	value = 900
+            value = 900
     	#value = value if (board.piece_at(place)).color else -value
     	return value
     
@@ -74,18 +74,18 @@ class Quiescence(Engine.Engine):
     def _quiescence_search(chessBoard, depth, isMax):
     	# check-mate
     	if chessBoard.is_checkmate():
-        	if isMax:
-            	return -10000
+            if isMax:
+                return -10000
         	else:
-            	return 10000
+                return 10000
         
     	# draw
     	elif chessBoard.is_stalemate():
-        	return 0
+            return 0
     
     	# terminal note
     	elif chessBoard.is_insufficient_material():
-        	return 0
+            return 0
     
     	elif depth == 0:
         	return self._evaluator.Evaluate(chessBoard)
@@ -230,4 +230,3 @@ class Quiescence(Engine.Engine):
                 	if alpha >= beta:
                     	break
             	return bestScore, bestMove
-
