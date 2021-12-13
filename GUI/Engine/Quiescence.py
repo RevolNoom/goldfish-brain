@@ -25,7 +25,7 @@ class Quiescence(Engine.Engine):
     Take the value of each piece to compare
     @return value of selected piece
     """	
-    def _get_piece_val(piece):
+    def _get_piece_val(self, piece):
         if(piece == None):
             return 0
         value = 0
@@ -48,7 +48,7 @@ class Quiescence(Engine.Engine):
     Take the favorable move for current player
     @returns: boolean True/False for favorable move
     """	
-    def _is_favorable_move(board: chess.Board, move: chess.Move) -> bool:
+    def _is_favorable_move(self, board: chess.Board, move: chess.Move) -> bool:
         if move.promotion is not None:
             return True
         if board.is_capture(move) and not board.is_en_passant(move):
@@ -60,7 +60,7 @@ class Quiescence(Engine.Engine):
     Take all the captured move that may be not quiet
     @returns: list of capture move
     """
-    def _list_favorable_move(chessBoard):
+    def _list_favorable_move(self, chessBoard):
         re_list = []
         for move in chessBoard.legal_moves:
             if chessBoard.is_capture(move):
@@ -71,7 +71,7 @@ class Quiescence(Engine.Engine):
     Extend quiescence search applied minimax
     @returns: bestScore
     """
-    def _quiescence_search(chessBoard, depth, isMax):
+    def _quiescence_search(self, chessBoard, depth, isMax):
         # check-mate
         if chessBoard.is_checkmate():
             if isMax:
@@ -118,7 +118,7 @@ class Quiescence(Engine.Engine):
     Normal search applied here: alpha-beta
     @retuns: bestScore
     """
-    def _alpha_beta(chessBoard, depth, alpha, beta, isMax):
+    def _alpha_beta(self, chessBoard, depth, alpha, beta, isMax):
         # check-mate
         if chessBoard.is_checkmate():
             if isMax:
@@ -189,7 +189,7 @@ class Quiescence(Engine.Engine):
     Static function for findding the best move
     @returns: bestScore, move
     """	
-    def _findBestMove(chessBoard, depth):
+    def _findBestMove(self, chessBoard, depth):
         try:
             move = poly.MemoryMappedReader("/home/genkibaskervillge/Documents/goldfish-brain/human.bin").weighted_choice(chessBoard).move
             # return self._evaluator.Evaluate(chessBoard), move
