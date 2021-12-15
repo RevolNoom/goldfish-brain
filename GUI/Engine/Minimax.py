@@ -4,8 +4,9 @@ import chess
 import Engine
 import Evaluator
 
+
 class Minimax(Engine.Engine):
-    _evaluator = Evaluator.EvaluatorSunfish()
+    _evaluator = Evaluator.EvaluatorPosition()
 
     def findBestMove(self, ChessBoard, Depth):
         """ Return the next best move for the player-to-move """

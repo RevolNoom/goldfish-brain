@@ -1,9 +1,11 @@
-from IPython.display import SVG, display
+#from IPython.display import SVG, display
 import chess
-import chess.engine
-import chess.svg
-import chess.polygot as poly
-import time
+import Evaluator
+#import chess.engine
+import Engine
+#import chess.svg
+import chess.polyglot as poly
+#import time
 
 
 """
@@ -18,7 +20,7 @@ class Quiescence(Engine.Engine):
     """
     @returns: move the next move of computer
     """
-    def findBesMove(self, chessBoard, depth):
+    def findBestMove(self, chessBoard, depth):
         return self._findBestMove(chessBoard, depth)[1]
 	
     """
@@ -190,43 +192,45 @@ class Quiescence(Engine.Engine):
     @returns: bestScore, move
     """	
     def _findBestMove(self, chessBoard, depth):
-        try:
-            move = poly.MemoryMappedReader("/home/genkibaskervillge/Documents/goldfish-brain/human.bin").weighted_choice(chessBoard).move
+        # LAM'S NOTE: Manh is using absolute path here, which does not exist in my machine
+        #try:
+        #    move = poly.MemoryMappedReader("/home/genkibaskervillge/Documents/goldfish-brain/human.bin").weighted_choice(chessBoard).move
             # return self._evaluator.Evaluate(chessBoard), move
-            return self._evaluator.Evaluate(chessBoard), move
-        except:
-            # Initial the bestMove is null, alpha = -INF, beta = INF
-            bestMove = chess.Move.null()
-            alpha = -1e5
-            beta = 1e5
+        #    return self._evaluator.Evaluate(chessBoard), move
+        #except:
+
+        # Initial the bestMove is null, alpha = -INF, beta = INF
+        bestMove = chess.Move.null()
+        alpha = -1e5
+        beta = 1e5
+        
+        # Check this turn for White or Black
+        if chessBoard.turn:
+            bestScore = -999999
+            for move in chessBoard.legal_moves:
+                chessBoard.push(move)
+                score = self._alpha_beta(chessBoard, depth - 1, alpha, beta, False)
+                chessBoard.pop()
+                if score > bestScore:
+                    bestScore = score
+                    bestMove = move
+                if score > alpha:
+                    alpha = score
+                if alpha >= beta:
+                    break
+            return bestScore, bestMove
+        else:
+            bestScore = 999999
+            for move in chessBoard.legal_moves:
+                chessBoard.push(move)
+                score = self._alpha_beta(chessBoard, depth - 1, alpha, beta, True)
+                chessBoard.pop()
+                if score < bestScore:
+                    bestScore = score
+                    bestMove = move
+                if beta >= score:
+                    beta = score
+                if alpha >= beta:
+                    break
+            return bestScore, bestMove
             
-            # Check this turn for White or Black
-            if chessBoard.turn:
-                bestScore = -999999
-                for move in chessBoard.legal_moves:
-                    chessBoard.push(move)
-                    score = self._alpha_beta(chessBoard, depth - 1, alpha, beta, False)
-                    chessBoard.pop()
-                    if score > bestScore:
-                        bestScore = score
-                        bestMove = move
-                    if score > alpha:
-                        alpha = score
-                    if alpha >= beta:
-                        break
-                return bestScore, bestMove
-            else:
-                bestScore = 999999
-                for move in chessBoard.legal_moves:
-                    chessBoard.push(move)
-                    score = self._alpha_beta(chessBoard, depth - 1, alpha, beta, True)
-                    chessBoard.pop()
-                    if score < bestScore:
-                        bestScore = score
-                        bestMove = move
-                    if beta >= score:
-                        beta = score
-                    if alpha >= beta:
-                        break
-                return bestScore, bestMove
-                

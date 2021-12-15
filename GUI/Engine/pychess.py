@@ -3,7 +3,10 @@
 import sys
 import chess
 import Minimax as mm
+import Negamax as ng 
 import AlphaBeta as ab
+import NullMove as nm
+import Quiescence as qu
 
 
 class Pychess:
@@ -18,7 +21,10 @@ class Pychess:
 
         # Mapping between names and actual algorithms
         self.AlgorithmTable = {  "minimax" : mm.Minimax(),
-                            "alphabeta" : ab.AlphaBeta()}
+                            "negamax" : ng.Negamax(),
+                            "alphabeta" : ab.AlphaBeta(),
+                            "nullmove": nm.Null_Move(),
+                            "quiescence": qu.Quiescence()}
 
 
     

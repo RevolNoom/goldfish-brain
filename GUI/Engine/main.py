@@ -2,12 +2,17 @@
 
 import Minimax
 import AlphaBeta
+import Negamax
+import NullMove 
 import chess
+import Evaluator as m
 
 c = chess.Board()
-engine = AlphaBeta.AlphaBeta() 
 
-#print(engine.GetEvaluateTime(c, 3))
+#engine = Minimax.Minimax() 
+#engine = Negamax.Negamax() 
+#engine = AlphaBeta.AlphaBeta() 
+engine = NullMove.NullMove() 
 
 while not c.is_game_over():
     move = engine.findBestMove(c, 5)

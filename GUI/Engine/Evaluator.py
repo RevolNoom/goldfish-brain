@@ -4,23 +4,41 @@
 # Tested with python-chess version 1.999
 # https://github.com/niklasf/python-chess
 import chess
+import time
+import io
+import sys 
 
 # AVAILABLE EVALUATORS:
 # +) EvaluatorSunfish
-# +)
+# +) EvaluatorPosition
 
 
 class Evaluator:
     def Evaluate(self, ChessBoard):
         print("I'm doing nothing! You asked the wrong guy to do your job.")
 
+    def GetEvaluateTime(self, ChessBoard):
+        # I don't want to see anything printed on the screen
+        text_trap = io.StringIO()
+        sys.stdout = text_trap
+
+        # Count running time 
+        StartTime = time.monotonic()
+        Move = self.Evaluate(ChessBoard)
+        EndTime = time.monotonic()
+
+        # now restore stdout function
+        sys.stdout = sys.__stdout__
+
+        return EndTime-StartTime
+
 
 class EvaluatorSunfish(Evaluator):
     """ This evaluator uses piece-position values from Sunfish engine
         https://github.com/thomasahle/sunfish/blob/master/sunfish.py """
 
-    _piece = { 'P': 100, 'N': 280, 'B': 320, 'R': 479, 'Q': 929, 'K': 60000, 
-                'p': -100, 'n': -280, 'b': -320, 'r': -479, 'q': -929, 'k': -60000 }
+    _piece = { 'P': 100, 'N': 280, 'B': 320, 'R': 479, 'Q': 929, 'K': 999999, 
+                'p': -100, 'n': -280, 'b': -320, 'r': -479, 'q': -929, 'k': -999999 }
     _pst = {
         'P': (   0,   0,   0,   0,   0,   0,   0,   0,
                 78,  83,  86,  73, 102,  82,  85,  90,

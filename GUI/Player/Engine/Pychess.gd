@@ -7,8 +7,6 @@ var _python
 
 func _ready():
 	_python = "python3"
-	if OS.get_name() == "Windows":
-		_python = "python"
 
 func HandleMoveRequest(Board):
 	var output = []

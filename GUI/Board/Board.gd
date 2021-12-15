@@ -44,7 +44,7 @@ func LoadBoard(FEN):
 
 # TODO: I don't have time to verify FEN though. Use with risk
 func UpdateBoard(FEN):
-	
+	#print("FEN: " + FEN)
 	# Dust off every pieces on the board
 	for eachCell in get_children():
 		for eachPiece in eachCell.get_children():
@@ -104,8 +104,10 @@ func PlayMove(UCIstr):
 		# warning-ignore:return_value_discarded
 		var NextPosition = []
 		OS.execute("python3", ["./Engine/pychess.py", "move", self.GetFEN(), UCIstr], true, NextPosition)
-		
+		print("NextPosition: ")
+		print(NextPosition)
 		# Add new position's FEN to the stack
+		print("Appended position: " + NextPosition[0])
 		_PositionStack.append(NextPosition[0])
 		
 	else:

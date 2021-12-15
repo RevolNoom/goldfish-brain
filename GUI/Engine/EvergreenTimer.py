@@ -1,11 +1,19 @@
 #!/usr/bin/python3
 
 # Add import statement for your algorithm here
+import Quiescence 
+import AlphaBeta 
+import Negamax 
+import NullMove 
 import Minimax
 import chess
 
 # Change this to your algorithm
-algo = Minimax.Minimax()
+#algo = Minimax.Minimax()
+algo = Negamax.Negamax()
+#algo = AlphaBeta.AlphaBeta()
+#algo = NullMove.Null_Move()
+#algo = Quiescence.Quiescence()
 
 # Increase the maximum depth if you are confident that your algorithm is fast
 depth = 2
