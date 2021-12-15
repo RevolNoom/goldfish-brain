@@ -146,9 +146,9 @@ class Quiescence(Engine.Engine):
                 # node isn quite
                 else:
                     if isMax:
-                        return self._quiescence_search(chessBoard, 2, False)
+                        return self._quiescence_search(chessBoard, 1, False)
                     else:
-                        return self._quiescence_search(chessBoard, 2, True)
+                        return self._quiescence_search(chessBoard, 1, True)
         else:
             # recursively search node children with alpha_beta
             if isMax:
