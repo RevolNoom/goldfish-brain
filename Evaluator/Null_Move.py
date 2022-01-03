@@ -9,7 +9,7 @@ MIN = -999999
 class Null_Move(Engine.Engine):
 
     def findBestMove(self, chessBoard, depth):
-        return self.evaluate(chessBoard, depth)[0]
+        return self.evaluate(chessBoard, depth)[1]
 
     def evaluate(self, chessBoard, depth):
         bestMove = chess.Move.null()
