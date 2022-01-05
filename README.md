@@ -12,13 +12,14 @@ This repository contains file codes, report and demo for Introduction to Artific
 2. Python Chess Libaray
 
 # Installation
+Open CMD(Windows) or Terminal(unbuntu/Linux) then run the sequence commands:
 1. Intall python:
 * __sudo apt-get update__
 * __sudo apt-get install python3__
 2. Intall pip/pip3:
 * __sudo apt install python3-pip__
 3. Intall python chess libarary:
-* __pip install python-chess__
+* __pip3 install python-chess__
 4. Install project:
 * Clone the project with git: !git clone [repos_link]
 
