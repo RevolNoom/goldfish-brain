@@ -9,7 +9,8 @@ Chess is a two-player game which consists of three main components: a chess boar
 ### 1. Install python
 - If you do not have python in your computer, you can go this link to download python: https://www.python.org/downloads/release/python-385/.
 - You can choose another version. However, you must install python with its version from 3.6.4 to latest version.
-- Then download python to your computer and run exe file.
+- Then download python to your computer and run exe file
+- Note: You must click to add path to this computer when the exe file opens.
 ### 2. Install Python Chess Library
 - After installing python, please open your command line then run the sequence commands:
 + pip install --upgrade pip
