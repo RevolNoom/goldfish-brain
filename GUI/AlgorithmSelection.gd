@@ -10,7 +10,7 @@ func _ready():
 	AddItem("negamax")
 	AddItem("alphabeta")
 	AddItem("nullmove")
-	AddItem("quiescent")
+	AddItem("quiescence")
 	
 	# Choose a default algorithm
 	_on_AlgorithmSelection_item_selected(2)

@@ -98,6 +98,7 @@ func PlayMove(UCIstr):
 	# warning-ignore:return_value_discarded
 	OS.execute("python3", ["./Engine/pychess.py", "legalmoves", self.GetFEN()], true, output)
 	output = output[0].split("\n")
+	print(output)
 	
 	# Make a move if the move is a valid one
 	if UCIstr in output:

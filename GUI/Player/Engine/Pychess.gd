@@ -13,8 +13,8 @@ func HandleMoveRequest(Board):
 	
 	# Hard-coded linkage between nodes:
 	# Will probably be problematic in the future
-	var algorithmName = get_node("../HBoxContainer/AlgorithmOptions/AlgorithmSelection")._algorithmPicked
-	var depth = get_node("../HBoxContainer/AlgorithmOptions/HBoxContainer/DepthEdit")._depth
+	var algorithmName = get_node("../../HBoxContainer/AlgorithmOptions/AlgorithmSelection")._algorithmPicked
+	var depth = get_node("../../HBoxContainer/AlgorithmOptions/HBoxContainer/DepthEdit")._depth
 	
 	print("Algorithm: " + algorithmName + ". Depth: " + str(depth))
 # warning-ignore:return_value_discarded

@@ -10,13 +10,13 @@ import chess
 
 # Change this to your algorithm
 #algo = Minimax.Minimax()
-# algo = Negamax.Negamax()
+algo = Negamax.Negamax()
 #algo = AlphaBeta.AlphaBeta()
 #algo = NullMove.Null_Move()
-algo = Quiescence.Quiescence()
+#algo = Quiescence.Quiescence()
 
 # Increase the maximum depth if you are confident that your algorithm is fast
-depth = 2
+depth = 3
 
 # Increase iterations per position to get more accurate "average running time" 
 iteration = 3

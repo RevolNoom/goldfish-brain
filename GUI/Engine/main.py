@@ -1,14 +1,22 @@
 #!/usr/bin/python3
-
 import Minimax
 import AlphaBeta
 import Negamax
 import NullMove 
 import chess
-import Evaluator as m
+import Evaluator
+import time
 
 c = chess.Board()
 
+# Count running time 
+e = Evaluator.EvaluatorPosition()
+StartTime = time.monotonic()
+e.Evaluate(c)
+EndTime = time.monotonic()
+print(EndTime-StartTime)
+
+"""
 #engine = Minimax.Minimax() 
 #engine = Negamax.Negamax() 
 #engine = AlphaBeta.AlphaBeta() 
@@ -25,3 +33,5 @@ while not c.is_game_over():
     print("\n")
 
 print("Game ended")
+"""
+

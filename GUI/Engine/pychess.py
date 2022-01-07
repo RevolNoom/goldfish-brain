@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 import sys
 import chess
 import Minimax as mm
@@ -23,7 +22,7 @@ class Pychess:
         self.AlgorithmTable = {  "minimax" : mm.Minimax(),
                             "negamax" : ng.Negamax(),
                             "alphabeta" : ab.AlphaBeta(),
-                            "nullmove": nm.Null_Move(),
+                            "nullmove": nm.NullMove(),
                             "quiescence": qu.Quiescence()}
 
 
@@ -39,7 +38,7 @@ class Pychess:
 
 
     def PrintHelpThenExit(self):
-        helpfile = open("pychess.help", "r")
+        helpfile = open("help.pychess", "r")
         a = str(helpfile.read())
         print(a)
         quit()

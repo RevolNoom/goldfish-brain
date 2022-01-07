@@ -1,0 +1,17 @@
+Installation
+
+Open CMD(Windows) or Terminal(unbuntu/Linux) then run the sequence commands:
+
+    Intall python:
+
+    sudo apt-get update
+    sudo apt-get install python3
+
+    Intall pip/pip3:
+
+    sudo apt install python3-pip
+
+    Intall python chess libarary:
+
+    pip3 install python-chess
+

@@ -8,7 +8,7 @@ var STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Board.LoadBoard(STARTING_FEN)
-	$Board.SetPlayers($Human, $Pychess)
+	$Board.SetPlayers($White.get_children()[0], $Black.get_children()[0])
 	$Board.connect("MovePlayed", self, "AMoveCompleted")
 	
 	# Start the game
