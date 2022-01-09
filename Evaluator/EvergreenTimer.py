@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 
 # Add import statement for your algorithm here
-import Minimax
+import NullMove as nm
 import chess
 
 # Change this to your algorithm
-algo = Minimax.Minimax()
+algo = nm.NullMove()
 
 # Increase the maximum depth if you are confident that your algorithm is fast
-depth = 2
+depth = 4
 
 # Increase iterations per position to get more accurate "average running time" 
 iteration = 3
