@@ -1,0 +1,91 @@
+To run this project, you need python3.6.4 or higher. Any python3 probably works fine,
+but we haven't tested compatibility with older versions, and won't do so.
+
+
+--Installation--
+
+1. Ubuntu
+Open the terminal then run the sequence commands:
+
+	Install python:
+
+	    sudo apt-get update
+	    sudo apt-get install python3
+
+	Install pip/pip3:
+
+	    sudo apt install python3-pip
+
+	Install python chess library:
+
+	    pip3 install python-chess
+
+
+2. Windows
+
+	Install python:
+		If you do not have python in your computer, you can go this link to download python: https://www.python.org/downloads/release/python-385/.
+		Then download python to your computer and run exe file
+		Note: You must click/tick "add path to this computer" or "Add Python 3.8 to PATH" when the exe file opens.
+
+	Install Python Chess Library
+
+		After installing python, please open your command line then run the sequence commands:
+
+		pip install --upgrade pip
+		pip install python-chess
+
+
+
+
+After successful installation, please run:
+
+	pip show chess
+
+and verify that the home-page of the library is: https://github.com/niklasf/python-chess  
+and the author is: Niklas Fiekas
+
+ALSO another note: we have experienced one Windows machine cannot install python-chess through pip. 
+If this is the case for you, we don't know what to do...
+
+
+--HOW TO RUN THIS PROJECT--
+
+There're two files of interest: EvergreenTimer.py and pychess.py, which can be found in folder Engine/
+These are intended to be run on terminal. I heard that you can use Jupyter Notebook or something to run
+it, but I don't know JN. Thus, you may run it in anyway you feel comfortable.
+
++) pychess.py: 
+	This file was initially intended to only be an adapter between GUI and python engine.
+	You can use it to see algorithm running time, find the best move for a position.
+	For information on how to run it, you can read the text file help.pychess, or calling 
+	pychess.py without any argument or with help/--help:
+	$> pychess.py
+	$> pychess.py --help
+	(Some other uses are exclusively interesting to the GUI. You may ignore them)
+
++) EvergreenTimer.py:
+	This file is responsible for our measurements. It requires a little bit tweaking of
+	the source code to run. But it's easy to understand. Promise!
+	The options you may change are:
+	*) Algorithm chosen to run: By uncommenting the algorithm you want
+	*) Algorithm Depth
+	*) Iteration: 
+		Higher for better average running time calculation. 
+		Default is 3, but you may change it to 1 if you just
+			want a quick result.
+
+-GUI-
+
+If you don't care about GUI (for demonstration), please skip the remaining part and 
+run two files above as you wish.
+
+If you are Windows user, Chess.exe is the file you want to run.
+Chess.x86_64 is for Linux users.
+
+NOTE: Potato PCs might not be able to run the GUI because of hardware limitation.
+	I hope you are interested and lucky, at the same time
+
+
+
+~~~ Thank you, and have fun! ~~~

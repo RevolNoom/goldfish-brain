@@ -1,0 +1,17 @@
+Because Minimax is hopelessly slow, we will improve it with alpha beta pruning. The idea is that, Minimax searches the whole game space. But there are cases where we can safely cut off some search branches without damaging even a tiny bit to the accuracy of the search.
+
+This is a demonstration of how it works. White circle means it's white turn, and white tries to raise the score to infinity. Same for black, but black lower the score down to negative-infinity. 
+
+First, Alpha Beta search the first branch and see that the best score it can get is 8. After that, the second branch is searched. The first branch over here yields the score of 5. This is where cut off happens. Because the root node never takes anything less than 8, and in the future, the black node won't take any node more than 5, the root node will never choose the second branch here, and thus, we have cut off some work: This sub-branch here. 
+
+Now that you have known how cut off happens, the algorithm will continue on with the third and probably a lot more branches after that.
+
+Side note: you only see one score per node here. But in implementation, we declare two variables: alpha and beta, to store it. White nodes will store in alpha, and black in beta. White nodes will test its alpha against its children's beta, and so on... It's implementation details. I won't go deep into it. But now you know why it's called alpha beta
+
+Now, some Graphs! The result isn't as promising as I thought: the time peak is only about 3 times faster than Minimax. Other than that, not much is different. 
+
+One remark about Alpha-Beta is that whatever Minimax finds, Alpha-Beta also finds it, but in less time. You can say Alpha-Beta is the improved version of Minimax.
+
+Since we don't have any improvement idea for alpha-beta, I'll let Manh continues with Quiescent Search: An improved version of Alpha-Beta in term of accuracy, not in time.
+
+Manh?

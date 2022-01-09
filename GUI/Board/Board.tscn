@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Board/Cell/Blackcell.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Board/Cell/Whitecell.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Board/Board.gd" type="Script" id=3]
+[ext_resource path="res://Player/Engine/Pychess.tscn" type="PackedScene" id=4]
 
 [node name="Board" type="Node2D"]
 script = ExtResource( 3 )
@@ -198,3 +199,5 @@ position = Vector2( 240, 208 )
 
 [node name="g2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 208, 208 )
+
+[node name="Pychess" parent="." instance=ExtResource( 4 )]

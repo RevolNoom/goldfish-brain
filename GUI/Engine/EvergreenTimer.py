@@ -8,7 +8,7 @@ import NullMove
 import Minimax
 import chess
 
-# Change this to your algorithm
+# Change "algo" to your desired algorithm
 #algo = Minimax.Minimax()
 algo = Negamax.Negamax()
 #algo = AlphaBeta.AlphaBeta()
@@ -87,19 +87,14 @@ evergreen_pos = [
 # Evaluate the game many times, each time with increasing depth
 for depth_i in range(1, depth+1):
 
-    result = "Depth " + str(depth_i) + ": "
+    print("Depth " + str(depth_i) + ": ")
 
-    # Evaluate each position of the game many time, and takes average time
-    for pos_i in evergreen_pos:
+    # Evaluate each position of the game many times, and takes average time
+    for i in range(0, len(evergreen_pos)):
+        pos_i = evergreen_pos[i]
         TotalTime = 0
         for ite_i in range (0, iteration):
             TotalTime += algo.GetEvaluateTime(chess.Board(pos_i), depth_i)[0]
-        result += "\n" + "{:1.2e}".format(TotalTime/iteration) + " secs"
+        print("Move " + str(i) + ": {:1.2e}".format(TotalTime/iteration) + " secs")
 
-    print(result)
     print()
-        
-
-            
-
-

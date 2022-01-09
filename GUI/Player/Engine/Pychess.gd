@@ -6,7 +6,12 @@ signal MoveConstructed(UCIMove)
 var _python
 
 func _ready():
-	_python = "python3"
+	if OS.get_name() == "Windows":
+		_python = "python"
+	else:
+		if OS.get_name() != "X11":
+			printerr("Your host hasn't been tested for compatibility yet.")
+		_python = "python3"
 
 func HandleMoveRequest(Board):
 	var output = []
@@ -22,3 +27,10 @@ func HandleMoveRequest(Board):
 	
 	emit_signal("MoveConstructed", output[0])
 
+# commandName: A command pychess.py can understand
+# argv: An array of arguments to pass to pychess
+# output: your array to store what pychess has to offer
+func Execute(commandName, argv, output):
+	var ARGV = ["./Engine/pychess.py", commandName]
+	ARGV.append_array(argv)
+	OS.execute(_python, ARGV, true, output)

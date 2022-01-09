@@ -6,17 +6,18 @@ COMMAND:
 	--help
 		Print this help and exit.
 
-	bestmove Fen ALGORITHM Depth
+
+	bestmove FEN ALGORITHM DEPTH
 
 		Returns the best move in UCI, evaluated by ALGORITHM 
-		for position specified by Fen.
+		for position specified by FEN.
 
-		Depth is a positive integer, specifies the depth at 
+		DEPTH is a positive integer, specifies the depth at
 		which the algorithm will search for the best move.
-		Without Depth, the ALGORITHM will use its default
-		configuration, which differs from algorithm to 
-		algorithm. You should experiment a bit to find the
-		one that fits your need best.
+		Without DEPTH, the ALGORITHM will use its default
+		depth, which differs from algorithm to algorithm.
+		You should experiment a bit to find the one that
+		fits your need best.
 	
 		ALGORITHM can be one of the following:
 		+ minimax
@@ -24,22 +25,43 @@ COMMAND:
 		+ alphabeta
 		+ nullmove
 		+ quiescent
+
+		NOTE: You should quote your FEN in double quotes
+
+	timing FEN ALGORITHM DEPTH
+
+		Returns the time it takes for ALGORITHM to evaluate
+		FEN at DEPTH.
 	
-	legalmoves Fen
+	legalmoves FEN
 		
-		Returns a list of legal moves for a FEN position, each
-		move represented by UCI on a line.
+		Returns a list of legal moves for a FEN position,
+		each move represented by UCI on a line.
 
-	move Fen Uci
+	move FEN Uci
 
-		Returns the resulting FEN position after playing move 
-		Uci on position Fen.
+		Returns the resulting FEN position after playing
+		move Uci on position FEN.
 		If the move cannot be performed, return "ERROR".
 
-	status Fen
+	status FEN
 
-		Returns the status of current Fen position:
+		Returns the status of current FEN position:
 		+) White wins: "1-0"
 		+) Black wins: "0-1"
 		+) Draw: "1/2-1/2"
 		+) Ongoing: "-"
+
+EXAMPLES:
+
+$> pychess.py bestmove "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" alphabeta 5
+$> pychess.py bestmove "1r2k1r1/pbppnp1p/1bn2P2/8/Q7/B1PB1q2/P4PPP/3RR1K1 w - - 0 20" quiescent 3
+
+$> pychess.py timing "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" alphabeta 5
+$> pychess.py timing "1r2k1r1/pbppnp1p/1bn2P2/8/Q7/B1PB1q2/P4PPP/3RR1K1 w - - 0 20" quiescent 3
+
+$> pychess.py legalmoves "1r2k1r1/pbppnp1p/1bn2P2/8/Q7/B1PB1q2/P4PPP/3RR1K1 w - - 0 20"
+
+$> pychess.py move  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" d2d4 
+
+$> pychess.py status  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"

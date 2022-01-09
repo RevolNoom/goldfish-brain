@@ -13,6 +13,7 @@ class Pychess:
     def __init__(self):
         # Mapping between arguments and what we need to do
         self.CommandTable = {
+            "timing": self.Timing,
             "bestmove": self.BestMove,
             "legalmoves": self.LegalMoves,
             "move": self.Move,
@@ -43,6 +44,27 @@ class Pychess:
         print(a)
         quit()
 
+
+    def Timing(self):
+        if len(sys.argv) not in [4, 5]: 
+            self.PrintHelpThenExit()
+
+        # Load the arguments
+
+        board = chess.Board(sys.argv[2])
+
+        AlgorithmName = sys.argv[3]
+
+        algorithm = self.AlgorithmTable[AlgorithmName]
+        if algorithm == None:
+            print("Unknown Algorithm: " + algorithm)
+
+        depth = None
+        if len(sys.argv) == 5:
+            depth = int(sys.argv[4])
+        
+        # Return the result
+        print(str(algorithm.GetEvaluateTime(board, depth)[0]) + "s")
 
 
     def BestMove(self):

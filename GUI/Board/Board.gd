@@ -96,7 +96,7 @@ func PlayMove(UCIstr):
 	# VERIFY that this is a valid move
 	var output = []
 	# warning-ignore:return_value_discarded
-	OS.execute("python3", ["./Engine/pychess.py", "legalmoves", self.GetFEN()], true, output)
+	$Pychess.Execute("legalmoves", [self.GetFEN()], output)
 	output = output[0].split("\n")
 	print(output)
 	
@@ -104,7 +104,7 @@ func PlayMove(UCIstr):
 	if UCIstr in output:
 		# warning-ignore:return_value_discarded
 		var NextPosition = []
-		OS.execute("python3", ["./Engine/pychess.py", "move", self.GetFEN(), UCIstr], true, NextPosition)
+		$Pychess.Execute("move", [self.GetFEN(), UCIstr], NextPosition)
 		print("NextPosition: ")
 		print(NextPosition)
 		# Add new position's FEN to the stack
@@ -146,7 +146,7 @@ func GetCellOf(Piece):
 func Status():
 	var output = []
 	# warning-ignore:return_value_discarded
-	OS.execute("python3", ["./Engine/pychess.py", "status", self.GetFEN()], true, output)
+	$Pychess.Execute("status", [self.GetFEN()], output)
 	return KillPreSufSpace(output[0])
 		
 # For some reasons, the UCIstr in PlayMove has a very stubborn newline
