@@ -1,160 +1,80 @@
-"""
+import chess
 import chess.polyglot as poly
 import Evaluator
 import Engine
-import chess
-import math
-
-MAX = 999999
-MIN = -999999
 
 class NullMove(Engine.Engine):
 
     _evaluator = Evaluator.EvaluatorPosition()
 
     def findBestMove(self, chessBoard, depth):
-        return self.evaluate(chessBoard, depth)[1]
+        return self._evaluate(chessBoard, depth)[1]
 
-    def evaluate(self, chessBoard, depth):
-        bestMove = chess.Move.null()
-        alpha = MIN
-        beta = MAX
+    def _evaluate(self, chessBoard, depth):
+            bestMove = chess.Move.null()
+            alpha = -999999
+            beta = 999999
 
-        if chessBoard.turn:
-            bestScore = MIN
-        else:
-            bestScore = MAX
-
-
-        for move in chessBoard.legal_moves:
-            chessBoard.push(move)
-            score = self.nullMoveP(chessBoard, depth - 1, alpha, beta, 1)
-
-            if chessBoard.turn and score >= bestScore:
-                bestMove = move
-                bestScore = score
-                alpha = max(alpha, score)
-
-            if not chessBoard.turn and score < bestScore:
-                bestMove = move
-                bestScore = score
-                beta = min(beta, score)
-
-            chessBoard.pop()
-
-            if alpha >= beta:
-                break
-
-        return bestScore, bestMove
-
-
-
-
-    def nullMoveP(self, chessBoard, depth, alpha, beta, NMP):
-        bestScore = MAX
-        if chessBoard.turn:
-            bestScore = MIN
-
-        if depth == 0:
-            return self._evaluator.Evaluate(chessBoard)
-
-        if NMP == 1:
-            move = chess.Move.null()
-            chessBoard.push(move)
-            score = -self.nullMoveP(chessBoard, depth/2 , -beta, 1-beta, 0)
-
-            chessBoard.pop()
-            if (score >= beta): 
-                return beta 
-
-        for move in chessBoard.legal_moves:
-            chessBoard.push(move)
-            score = self.nullMoveP(chessBoard, depth - 1, alpha, beta, 0)
-            chessBoard.pop()
-
+            # Check this turn for White or Black
             if chessBoard.turn:
-                alpha = max(alpha, score)
-                bestScore = max(bestScore, score)
+                bestScore = -999999
+                for move in chessBoard.legal_moves:
+                    chessBoard.push(move)
+                    score = self._NullMoveP(chessBoard, depth - 1, alpha, beta, False, True)
+                    chessBoard.pop()
+                    if score > bestScore:
+                        bestScore = score
+                        bestMove = move
+                    if score > alpha:
+                        alpha = score
+                    if alpha >= beta:
+                        break
+                return bestScore, bestMove
             else:
-                beta = min(beta, score)
-                bestScore = min(bestScore, score)
-
-            if alpha >= beta:
-                break
-
-        return bestScore
-"""
-
-import chess
-import chess.polyglot as poly
-import Evaluator
-import Engine
-
-MAX = 999999
-MIN = -999999
-
-class NullMove(Engine.Engine):
-    _evaluator = Evaluator.EvaluatorPosition()
-
-    def findBestMove(self, chessBoard, depth):
-        return self.evaluate(chessBoard, depth)[1]
-
-    def evaluate(self, chessBoard, depth):
-        bestMove = chess.Move.null()
-        alpha = MIN
-        beta = MAX
-        if chessBoard.turn:
-            bestScore = MIN
-            for move in chessBoard.legal_moves:
-                chessBoard.push(move)
-                score = self.nullMoveP(chessBoard, depth - 1, alpha, beta, False,1)
-                chessBoard.pop()
-                if score > bestScore:
-                    bestScore = score
-                    bestMove = move
-                if score > alpha:
-                    alpha = score
-                if alpha >= beta:
-                    break
-            return bestScore, bestMove
-        else:
-            bestScore = MAX
-            for move in chessBoard.legal_moves:
-                chessBoard.push(move)
-                score = self.nullMoveP(chessBoard, depth - 1, alpha, beta, True,1)
-                chessBoard.pop()
-                if score < bestScore:
-                    bestScore = score
-                    bestMove = move
-                if beta >= score:
-                    beta = score
-                if alpha >= beta:
-                    break
-            return bestScore, bestMove
+                bestScore = 999999
+                for move in chessBoard.legal_moves:
+                    chessBoard.push(move)
+                    score = self._NullMoveP(chessBoard, depth - 1, alpha, beta, True,True)
+                    chessBoard.pop()
+                    if score < bestScore:
+                        bestScore = score
+                        bestMove = move
+                    if beta >= score:
+                        beta = score
+                    if alpha >= beta:
+                        break
+                return bestScore, bestMove
 
 
-    def nullMoveP(self, chessBoard, depth, alpha, beta, isMax, NMP):
+    def _NullMoveP(self, chessBoard, depth, alpha, beta, isMax,NMP):
         if chessBoard.is_checkmate():
             if isMax:
-                return MIN
+                return -999999
             else:
-                return MAX
+                return 999999
         if chessBoard.is_insufficient_material(): 
             return 0
+
         if depth == 0:
             return self._evaluator.Evaluate(chessBoard)
-        if (NMP == 1 and depth >= 4):
-            move = chess.Move.null()
-            chessBoard.push(move)
-            score = -self.nullMoveP(chessBoard, depth - 3,-beta,1-beta, isMax, NMP)
+        
+        if (NMP == True and depth >= 4):
+            currentMove = chess.Move.null()
+            # move = move in chessBoard.legal_moves
+            # currentMove = move[0]
+            chessBoard.push(currentMove)
+            # chessBoard.push(currentMove)
+            score = -self._nullMoveP(chessBoard, depth-3, -beta, 1 - beta, isMax, False)
             chessBoard.pop()
-            if (score >= beta): 
-                return beta 
+            if (score >= beta):
+                return score  #found cut-off
+            else:
+                depth += 3 #if cut-off not found, return initial depth
         if isMax:
-            bestScore = MIN
+            bestScore = -999999
             for move in chessBoard.legal_moves:
                 chessBoard.push(move)
-                score = self.nullMoveP(chessBoard, depth - 1, alpha, beta, 0, NMP)
+                score = self._NullMoveP(chessBoard, depth - 1, alpha, beta, False,False)
                 chessBoard.pop()
 
                 if alpha < score:
@@ -165,12 +85,13 @@ class NullMove(Engine.Engine):
                     
                 if alpha >= beta:
                     break
-            return bestScore               
+            return bestScore
+                
         else:
-            bestScore = MAX
+            bestScore = 999999
             for move in chessBoard.legal_moves:
                 chessBoard.push(move)
-                score = self.nullMoveP(chessBoard, depth - 1, alpha, beta, True,0)
+                score = self._NullMoveP(chessBoard, depth - 1, alpha, beta, True, False)
                 chessBoard.pop()
 
                 if beta >= score:

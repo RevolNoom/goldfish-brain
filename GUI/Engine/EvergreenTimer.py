@@ -10,9 +10,9 @@ import chess
 
 # Change "algo" to your desired algorithm
 #algo = Minimax.Minimax()
-algo = Negamax.Negamax()
+#algo = Negamax.Negamax()
 #algo = AlphaBeta.AlphaBeta()
-#algo = NullMove.Null_Move()
+algo = NullMove.NullMove()
 #algo = Quiescence.Quiescence()
 
 # Increase the maximum depth if you are confident that your algorithm is fast

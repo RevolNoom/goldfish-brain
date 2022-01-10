@@ -45,8 +45,12 @@ After successful installation, please run:
 and verify that the home-page of the library is: https://github.com/niklasf/python-chess  
 and the author is: Niklas Fiekas
 
-ALSO another note: we have experienced one Windows machine cannot install python-chess through pip. 
-If this is the case for you, we don't know what to do...
+ISSUES: 
+We have experienced one Windows machine cannot install python-chess through pip. 
+And one Windows machine installed python-chess but it results in a completely different library. 
+One Windows machine successfully installed as intended.
+2/2 Linux machines successfully installed this library.
+As such, we have high hope on Linux. If you are a Windows user, let's hope that this is not the case for you. Because if it is, we truly don't know what to do...
 
 
 --HOW TO RUN THIS PROJECT--
@@ -60,20 +64,35 @@ it, but I don't know JN. Thus, you may run it in anyway you feel comfortable.
 	You can use it to see algorithm running time, find the best move for a position.
 	For information on how to run it, you can read the text file help.pychess, or calling 
 	pychess.py without any argument or with help/--help:
-	$> pychess.py
-	$> pychess.py --help
+	
+	Windows: 
+		$> python pychess.py
+		$> python pychess.py --help
+
+	Linux:
+		$> ./pychess.py
+		or
+		$> python3 pychess.py
+
 	(Some other uses are exclusively interesting to the GUI. You may ignore them)
 
 +) EvergreenTimer.py:
 	This file is responsible for our measurements. It requires a little bit tweaking of
 	the source code to run. But it's easy to understand. Promise!
 	The options you may change are:
-	*) Algorithm chosen to run: By uncommenting the algorithm you want
+	*) Algorithm chosen to run: 
+		Uncomment the algorithm you want.
+		There's a default chosen algorithm already, so you may run it right now.
 	*) Algorithm Depth
 	*) Iteration: 
 		Higher for better average running time calculation. 
 		Default is 3, but you may change it to 1 if you just
 			want a quick result.
+
+	Here's how you run it:
+	$> EvergreenTimer.py
+	or
+	$> 
 
 -GUI-
 
